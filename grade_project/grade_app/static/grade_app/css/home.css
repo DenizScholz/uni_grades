@@ -1,0 +1,54 @@
+.grade-container-dark {
+    background: rgba(0,0,0,0.5);
+    transition: ease-in-out 0.1s;
+}
+
+.grade-container-dark:hover {
+    background: rgba(0,0,0,0.7);
+}
+
+.grade-container-dark2 {
+    background: rgba(0,0,0,0.2);
+    transition: ease-in-out 0.2s;
+}
+
+.grade-container-dark2:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.grade-font-white {
+    color: rgba(255,255,255,0.9);
+}
+
+.border-sm-bottom {
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+/* small */
+@media (min-width: 576px) {
+    .border-sm-right {
+        border-right: 1px solid rgba(255,255,255,0.3);
+    }
+    .border-sm-bottom {
+        border-bottom: 0px;
+    }
+
+    .show-sm {
+        display: inline;
+    }
+}
+
+/* medium */
+@media (min-width: 768px) {
+
+}
+
+/* large */
+@media (min-width: 992px) {
+
+}
+
+/* extra large */
+@media (min-width: 1200px) {
+
+}

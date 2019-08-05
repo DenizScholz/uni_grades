@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href='{% static "grade_app/css/home.css" %}'>
+{% endblock css %}
+
+
+{% block content %}
+<div class="container grade-container-dark my-4 p-5 rounded shadow">
+    <div class="row align-items-center">
+        <div class="col-md">
+            <h1 class="grade-font-white font-weight-light">Hello, Deniz.</h1>
+        </div>
+        <div class="col-md text-md-right">
+            <h2 id="time" class="grade-font-white font-weight-light"></h2>
+        </div>
+    </div>
+</div>
+<div class="container grade-container-dark my-4 p-4 rounded shadow">
+    <div class="row align-items-center justify-content-between">
+        <div class="col-sm text-center m-2 border-sm-right border-sm-bottom">
+            <h3 class="grade-font-white font-weight-light">Total Grades</h3>
+            <h2 class="grade-font-white font-weight-light">14</h2>
+        </div>
+        <div class="col-sm text-center m-2 border-sm-right border-sm-bottom">
+            <h3 class="grade-font-white font-weight-light">Average Grade</h3>
+            <h2 class="grade-font-white font-weight-light">3.3 </h2>
+        </div>
+        <div class="col-sm text-center m-2">
+            <h3 class="grade-font-white font-weight-light">Total LP</h3>
+            <h2 class="grade-font-white font-weight-light">75</h2>
+        </div>
+    </div>
+</div>
+<div class="container grade-container-dark rounded shadow p-2">
+    {% for gradebook in gradebooks %}
+    <a href="{% url 'gradebook' pk=gradebook.pk %}">
+        <div class="my-1 p-2 grade-font-white grade-container-dark2 rounded shadow">
+            {{gradebook.title}}
+        </div>
+    </a>
+
+    {% endfor %}
+</div>
+<div class="container grade-container-dark my-4 p-5 rounded shadow">
+    <h4 class="grade-font-white font-weight-light text-md-right">List of all your grades</h4>
+    <div class="container my-4">
+        <div class="row p-0">
+            <div class="col-sm-8 p-0 d-none d-sm-block">
+                <div class="grade-font-white font-weight-light p-0">Grade name</div>
+            </div>
+            <div class="col-sm-2 p-0 d-none d-sm-block">
+                <div class="grade-font-white font-weight-light text-sm-right">Creditpoints</div>
+            </div>
+            <div class="col-sm-2 p-0 d-none d-sm-block">
+                <div class="grade-font-white font-weight-light text-sm-right">Value</div>
+            </div>
+        </div>
+
+
+        {% for grade in grades %}
+        <div class="row align-items-center grade-container-dark2 px-3 py-3 rounded my-1">
+            <div class="col-sm-8 p-0">
+                <h5 class="grade-font-white font-weight-light p-0">{{ grade.title }}</h5>
+            </div>
+            <div class="col-sm-2 p-0">
+                <h5 class="grade-font-white font-weight-light text-sm-right p-0">{{ grade.creditpoints }}LP</h5>
+            </div>
+            <div class="col-sm-2 p-0">
+                <h5 class="grade-font-white font-weight-light text-sm-right p-0">{{ grade.value }}</h5>
+            </div>
+        </div>
+        {% endfor %}
+
+
+
+
+
+    </div>
+</div>
+{% endblock content %}
+
+
+{% block js %}
+<script>
+    function checkTime(i) {
+        return (i < 10) ? "0" + i : i;
+    }
+
+    function startTime() {
+        var today = new Date(),
+            h = checkTime(today.getHours()),
+            m = checkTime(today.getMinutes()),
+            s = checkTime(today.getSeconds());
+        document.getElementById('time').innerHTML = h + ":" + m + ":" + s;
+        t = setTimeout(function () {
+            startTime()
+        }, 500);
+    }
+    startTime();
+</script>
+{% endblock js %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+{{ gradebook.title }}
+
+{% for grade in grades %}
+{{ grade.title }}
+{% endfor %}
+
+{% endblock content %}
