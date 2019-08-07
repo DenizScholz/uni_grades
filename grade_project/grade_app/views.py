@@ -38,7 +38,7 @@ class About(View):
 @method_decorator(login_required, name='dispatch')
 class GradebookView(View):
     def get(self, request, pk):
-        gradebook = Gradebook.objects.get(pk=pk)
+        gradebook = get_object_or_404(Gradebook, pk=pk)
         if request.user == gradebook.owner:
             grades = Grade.objects.filter(gradebook=gradebook)
             form = GradeCreationForm()
