@@ -1,5 +1,6 @@
-from django.shortcuts import render, HttpResponse, redirect, HttpResponseRedirect
+from django.shortcuts import render, HttpResponse, redirect, HttpResponseRedirect, get_object_or_404, get_list_or_404
 from django.contrib.auth.forms import UserCreationForm
+from django.http import Http404
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -20,11 +21,6 @@ class Home(View):
     def get(self, request):
         gradebooks = Gradebook.objects.filter(owner=request.user)
         grades = Grade.objects.filter(gradebook__owner=request.user)
-
-        for g in gradebooks:
-            # TODO
-            print(g.getHashID())
-
         context = {
             'gradebooks': gradebooks,
             'grades': grades,
@@ -43,54 +39,40 @@ class About(View):
 class GradebookView(View):
     def get(self, request, pk):
         gradebook = Gradebook.objects.get(pk=pk)
-        if not request.user == gradebook.owner:
-            return HttpResponse('gtfo')
-
-        grades = Grade.objects.filter(gradebook=gradebook)
-        form = GradeCreationForm()
-
-        context = {
-            'gradebook': gradebook,
-            'grades': grades,
-            'form': form,
-        }
-
-        return render(request, 'grade_app/gradebook.html', context=context)
+        if request.user == gradebook.owner:
+            grades = Grade.objects.filter(gradebook=gradebook)
+            form = GradeCreationForm()
+            context = {
+                'gradebook': gradebook,
+                'grades': grades,
+                'form': form,
+            }
+            return render(request, 'grade_app/gradebook.html', context=context)
+        else:
+            raise Http404("Not authorized")
 
     def post(self, request, pk):
-        # why does this work tho?
-        gradebook = Gradebook.objects.get(pk=pk)
-        if not request.user == gradebook.owner:
-            return HttpResponse('gtfo')
+        gradebook = get_object_or_404(Gradebook, pk=pk)
+        if request.user == gradebook.owner:
+            form = GradeCreationForm(request.POST)
+            if form.is_valid():
+                grade = form.save(commit=False)
+                grade.gradebook = gradebook
+                grade.save()
+                return redirect('gradebook', pk=pk)
+        else:
+            raise Http404("Not authorized")
 
-        grades = Grade.objects.filter(gradebook=gradebook)
-        form = GradeCreationForm(request.POST)
 
-        if not form.is_valid():
-            return HttpResponse('something sux')
-
-        grade = form.save(commit=False)
-        for g in grades:
-            if g.title == grade.title:
-                return HttpResponse('already have this one')
-
-        grade.gradebook = gradebook
-        grade.save()
-        form = GradeCreationForm()
-
-        context = {
-            'gradebook': gradebook,
-            'grades': grades,
-            'form': form,
-        }
-        
-        return render(request, 'grade_app/gradebook.html', context=context)
-
+@method_decorator(login_required, name='dispatch')
 class GradeDelete(View):
     def get(self, request, pk):
-        grade = Grade.objects.get(pk=pk)
-        grade.delete()
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        grade = get_object_or_404(Grade, pk=pk)
+        if request.user == grade.gradebook.owner:
+            grade.delete()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        else:
+            raise Http404("Not authorized")
 
 
 @method_decorator(login_required, name='dispatch')
@@ -101,11 +83,8 @@ class GradebookCreate(View):
 
     def post(self, request):
         form = GradebookCreationForm(request.POST)
-
-        if not form.is_valid():
-            return HttpResponse('something sux')
-
-        gradebook = form.save(commit=False)
-        gradebook.owner = request.user
-        gradebook.save()
+        if form.is_valid():
+            gradebook = form.save(commit=False)
+            gradebook.owner = request.user
+            gradebook.save()
         return redirect('home')

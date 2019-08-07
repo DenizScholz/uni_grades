@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-from hashids import Hashids
 
 
 class Gradebook(models.Model):
@@ -34,11 +33,6 @@ class Gradebook(models.Model):
         for g in grades:
             x += g.creditpoints
         return x
-
-    # TODO
-    def getHashID(self):
-        hashids = Hashids()
-        return hashids.encode(self.pk)
 
 
 class Grade(models.Model):
