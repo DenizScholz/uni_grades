@@ -1,11 +1,36 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ gradebook.title }}{% endblock %}
 
 
 {% block content %}
-{{ gradebook.title }}
+<div class="grade-container-dark rounded shadow">
+    <h1 class="display-4 grade-font-white p-4">{{ gradebook.title }}</h1>
+</div>
+<div class="grade-container-dark rounded shadow">
+    <div class="row align-items-center">
+        <div class="col">
+            <h4 class=" grade-font-white font-weight-light p-4">Total Creditpoints:</h4>
+        </div>
+        <div class="col">
+            <h1 class=" grade-font-white p-4 font-weight-light text-right">{{ gradebook.getTotalCreditpoints }}</h1>
+        </div>
+
+    </div>
+</div>
 
 {% for grade in grades %}
-{{ grade.title }}
+<a href="{% url 'home' %}" style="text-decoration: none !important">
+    <div class="my-1 p-2 grade-font-white grade-container-dark rounded shadow">
+        {{ grade.title }}
+    </div>
+</a>
 {% endfor %}
 
 {% endblock content %}
+
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href='{% static "grade_app/css/home.css" %}'>
+{% endblock css %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href='{% static "grade_app/css/home.css" %}'>
+{% endblock css %}
+
+{% block title %}Login{% endblock %}
+
+
+{% block content %}
+<!-- Login head -->
+<div class="container grade-container-dark rounded shadow p-5 grade-font-white my-4">
+    <h3 class="display-4 font-weight-light">Login</h3>
+</div>
+
+<!-- Login Form -->
+<div class="container grade-container-dark rounded shadow p-5 grade-font-white font-weight-light">
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+</div>
+
+<!-- No account yet? -> signup -->
+<div class="container grade-container-dark rounded shadow p-5 grade-font-white my-4">
+    <div class="d-flex justify-content-between">
+        <h5 class="font-weight-light">Do not have an account yet?</h5>
+        <a class="btn btn-primary" href="{% url 'signup' %}">
+            Signup
+        </a>
+    </div>
+</div>
+
+{% endblock content %}

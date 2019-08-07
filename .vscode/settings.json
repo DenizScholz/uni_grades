@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "virtualenv/bin/python3",
+    "python.pythonPath": "venv/bin/python",
     "editor.fontSize": 13
 }

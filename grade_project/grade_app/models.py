@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from hashids import Hashids
 
 
 class Gradebook(models.Model):
@@ -18,6 +19,26 @@ class Gradebook(models.Model):
         for g in grades:
             result += g.value
         return result/len(grades)
+
+    def getGrades(self):
+        return Grade.objects.filter(gradebook=self)
+
+    def getTotalCreditpoints(self):
+        x = 0
+        for g in self.getGrades():
+            x += g.creditpoints
+        return x
+
+    def getTotalCreditpointsGrades(grades):
+        x = 0
+        for g in grades:
+            x += g.creditpoints
+        return x
+
+    # TODO
+    def getHashID(self):
+        hashids = Hashids()
+        return hashids.encode(self.pk)
 
 
 class Grade(models.Model):
