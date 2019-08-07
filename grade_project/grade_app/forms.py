@@ -13,3 +13,8 @@ class GradebookCreationForm(ModelForm):
     class Meta:
         model = Gradebook
         fields = ['title',]
+
+class GradeCreationForm(ModelForm):
+    class Meta:
+        model = Grade
+        fields = ['title', 'creditpoints', 'value', 'weighted',]

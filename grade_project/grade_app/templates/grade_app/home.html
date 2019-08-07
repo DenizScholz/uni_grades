@@ -13,10 +13,15 @@
 <div class="container grade-container-dark my-4 p-5 rounded shadow">
     <div class="row align-items-center">
         <div class="col-md">
-            <h1 class="grade-font-white font-weight-light">Hello, {{ request.user|title}}</h1>
+            <h1 class="grade-font-white font-weight-light" style="opacity: 0; transition: ease-in-out 2s;" id="hello-user-header">Hello,
+                <span >
+                    {{ request.user|title}}
+                </span>
+            </h1>
         </div>
         <div class="col-md text-md-right">
-            <h2 id="time" class="grade-font-white font-weight-light"></h2>
+            <h2 id="time" class="grade-font-white font-weight-light" style="opacity: 0; transition: ease-in-out 2s;">
+            </h2>
         </div>
     </div>
 </div>
@@ -53,14 +58,13 @@
 </a>
 {% endfor %}
 
+<!-- Create Gradebook button -->
 <div class="text-right">
     <a href="{% url 'gradebook-create' %}"
         class="btn btn-dark my-1 py-3 px-5 grade-font-white grade-container-dark rounded shadow font-weight-light">
         Create Gradebook
     </a>
 </div>
-
-
 
 {% if grades %}
 <!-- All grades container -->
@@ -103,6 +107,16 @@
 
 {% block js %}
 <script>
+    window.onload = init;
+    function init() {
+        hello_user = document.getElementById('hello-user-header');
+        hello_user.style.opacity = 1;
+        setTimeout(function () {
+            time = document.getElementById('time');
+            time.style.opacity = 1;
+        }, 1000);
+        startTime();
+    }
     function checkTime(i) {
         return (i < 10) ? "0" + i : i;
     }
@@ -116,6 +130,6 @@
             startTime()
         }, 500);
     }
-    startTime();
+    
 </script>
 {% endblock js %}

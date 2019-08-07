@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import render, HttpResponse, redirect, HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.views import View, generic
 from .models import Gradebook, Grade
 from .helpers import calcAverageGrades
-from .forms import CustomUserCreationForm, GradebookCreationForm
+from .forms import CustomUserCreationForm, GradebookCreationForm, GradeCreationForm
 
 
 class SignUp(generic.CreateView):
@@ -45,8 +45,42 @@ class GradebookView(View):
         gradebook = Gradebook.objects.get(pk=pk)
         if not request.user == gradebook.owner:
             return HttpResponse('gtfo')
+
         grades = Grade.objects.filter(gradebook=gradebook)
-        return render(request, 'grade_app/gradebook.html', context={'gradebook': gradebook, 'grades': grades})
+        form = GradeCreationForm()
+
+        context = {
+            'gradebook': gradebook,
+            'grades': grades,
+            'form': form,
+        }
+
+        return render(request, 'grade_app/gradebook.html', context=context)
+
+    def post(self, request, pk):
+        # why does this work tho?
+        gradebook = Gradebook.objects.get(pk=pk)
+        if not request.user == gradebook.owner:
+            return HttpResponse('gtfo')
+
+        grades = Grade.objects.filter(gradebook=gradebook)
+        form = GradeCreationForm(request.POST)
+
+        if not form.is_valid():
+            return HttpResponse('something sux')
+
+        grade = form.save(commit=False)
+        grade.gradebook = gradebook
+        grade.save()
+        form = GradeCreationForm()
+
+        context = {
+            'gradebook': gradebook,
+            'grades': grades,
+            'form': form,
+        }
+        
+        return redirect('gradebook', pk=pk)
 
 
 @method_decorator(login_required, name='dispatch')

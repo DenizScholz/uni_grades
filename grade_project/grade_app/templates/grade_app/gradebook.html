@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %}{{ gradebook.title }}{% endblock %}
 
 
 {% block content %}
+
+<!-- Gradebook Head -->
 <div class="grade-container-dark rounded shadow">
     <h1 class="display-4 grade-font-white p-4">{{ gradebook.title }}</h1>
 </div>
@@ -20,16 +23,65 @@
     </div>
 </div>
 
+<!-- Grade List -->
 {% for grade in grades %}
-<a href="{% url 'home' %}" style="text-decoration: none !important">
-    <div class="my-1 p-2 grade-font-white grade-container-dark rounded shadow">
+<a href="{% url 'gradebook' pk=gradebook.pk %}" style="text-decoration: none !important">
+    <div class="my-1 py-3 px-4 grade-font-white grade-container-dark rounded shadow">
         {{ grade.title }}
+        <div class="float-right"> {{ grade.creditpoints }}LP / {{ grade.value }}</div>
     </div>
 </a>
 {% endfor %}
 
+
+<div class="text-right">
+    <button class="btn btn-dark my-1 py-3 px-5 grade-font-white grade-container-dark rounded shadow font-weight-light"
+        onclick="toggleGradeForm()">
+        Add new Grade
+    </button>
+</div>
+
+<!-- New Grade Form -->
+<div class="container grade-container-dark rounded shadow p-5 grade-font-white font-weight-light my-2" id="grade-form"
+    {% if not request.POST %} style="display: none;" {% endif %}>
+    <h5>Create a new grade</h5>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary">Add new Grade</button>
+    </form>
+</div>
+
+
 {% endblock content %}
 
+
+{% block js %}
+<script>
+    window.onload = init;
+    function init() {
+        form = document.getElementById("grade-form");
+        if (form.style.display !== 'none') {
+            form.scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+    }
+    function toggleGradeForm() {
+        form = document.getElementById("grade-form");
+        if (form.style.display === 'none') {
+            form.style.display = 'block';
+            form.scrollIntoView({
+                behavior: 'smooth'
+            });
+        } else {
+            form.style.display = 'none';
+            document.body.scrollTop = 0; // For Safari
+            document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        }
+    }
+</script>
+{% endblock js %}
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href='{% static "grade_app/css/home.css" %}'>
