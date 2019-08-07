@@ -11,7 +11,8 @@
 <div class="grade-container-dark rounded shadow">
     <h1 class="display-4 grade-font-white p-4">{{ gradebook.title }}</h1>
 </div>
-<div class="grade-container-dark rounded shadow">
+
+<div class="grade-container-dark rounded shadow my-2">
     <div class="row align-items-center">
         <div class="col">
             <h4 class=" grade-font-white font-weight-light p-4">Total Creditpoints:</h4>
@@ -23,18 +24,39 @@
     </div>
 </div>
 
+<div class="grade-container-dark rounded shadow my-2">
+    <div class="row align-items-center">
+        <div class="col">
+            <h4 class=" grade-font-white font-weight-light p-4">Average:</h4>
+        </div>
+        <div class="col">
+            <h1 class=" grade-font-white p-4 font-weight-light text-right">{{ gradebook.average_grade|floatformat:2 }}
+            </h1>
+        </div>
+
+    </div>
+</div>
+
 <!-- Grade List -->
 {% for grade in grades %}
 <a href="{% url 'gradebook' pk=gradebook.pk %}" style="text-decoration: none !important">
     <div class="my-1 py-3 px-4 grade-font-white grade-container-dark rounded shadow">
         {{ grade.title }}
-        <div class="float-right"> {{ grade.creditpoints }}LP / {{ grade.value }}{% if not grade.weighted %} *{% endif %}</div>
+        <div class="float-right">{% if not grade.weighted %}* {% endif %}{{ grade.creditpoints }}LP / {{ grade.value }}
+        </div>
     </div>
 </a>
-<a href="{% url 'grade-delete' pk=grade.pk %}">delete</a>
 {% endfor %}
 
+<!-- Delete this Gradebook Button -->
+<div class="text-right">
+    <a href="{% url 'gradebook-delete' pk=gradebook.pk %}"
+        class="btn btn-dark my-1 py-3 px-5 grade-font-white grade-container-dark rounded shadow font-weight-light">
+        Delete this Gradebook
+    </a>
+</div>
 
+<!-- New Grade Button -->
 <div class="text-right">
     <button class="btn btn-dark my-1 py-3 px-5 grade-font-white grade-container-dark rounded shadow font-weight-light"
         onclick="toggleGradeForm()">

@@ -15,9 +15,14 @@ class Gradebook(models.Model):
         if not grades:
             return 0
         result = 0
-        for g in grades:
-            result += g.value
-        return result/len(grades)
+        sum_lp = 0
+        for grade in grades:
+            if grade.weighted:
+                sum_lp += grade.creditpoints
+                result += grade.value * grade.creditpoints
+        if sum_lp == 0:
+            return 0
+        return result/sum_lp
 
     def getGrades(self):
         return Grade.objects.filter(gradebook=self)

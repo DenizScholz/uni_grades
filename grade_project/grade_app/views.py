@@ -88,3 +88,14 @@ class GradebookCreate(View):
             gradebook.owner = request.user
             gradebook.save()
         return redirect('home')
+
+
+@method_decorator(login_required, name='dispatch')
+class GradebookDelete(View):
+    def get(self, request, pk):
+        gradebook = get_object_or_404(Gradebook, pk=pk)
+        if request.user == gradebook.owner:
+            gradebook.delete()
+            return redirect('home')
+        else:
+            raise Http404("Not authorized")

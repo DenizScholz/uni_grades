@@ -99,7 +99,8 @@
                 <div class="grade-font-white font-weight-light text-sm-right p-0">{{ grade.creditpoints }}LP</div>
             </div>
             <div class="col-sm-2 p-0">
-                <div class="grade-font-white font-weight-light text-sm-right p-0">{{ grade.value }}</div>
+                <div class="grade-font-white font-weight-light text-sm-right p-0">{% if not grade.weighted %}*
+                    {% endif %}{{ grade.value }}</div>
             </div>
         </div>
         {% endfor %}
