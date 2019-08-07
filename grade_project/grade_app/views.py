@@ -44,5 +44,7 @@ class About(View):
 class GradebookView(View):
     def get(self, request, pk):
         gradebook = Gradebook.objects.get(pk=pk)
+        if not request.user == gradebook.owner:
+            return HttpResponse('gtfo')
         grades = Grade.objects.filter(gradebook=gradebook)
         return render(request, 'grade_app/gradebook.html', context={'gradebook': gradebook, 'grades': grades})
