@@ -4,3 +4,4 @@ virtualenv/
 venv/
 *.sqlite3
 .DS_Store
+.vscode/settings.json

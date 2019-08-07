@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.views import View, generic
 from .models import Gradebook, Grade
 from .helpers import calcAverageGrades
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, GradebookCreationForm
 
 
 class SignUp(generic.CreateView):
@@ -18,7 +18,6 @@ class SignUp(generic.CreateView):
 @method_decorator(login_required, name='dispatch')
 class Home(View):
     def get(self, request):
-
         gradebooks = Gradebook.objects.filter(owner=request.user)
         grades = Grade.objects.filter(gradebook__owner=request.user)
 
@@ -48,3 +47,21 @@ class GradebookView(View):
             return HttpResponse('gtfo')
         grades = Grade.objects.filter(gradebook=gradebook)
         return render(request, 'grade_app/gradebook.html', context={'gradebook': gradebook, 'grades': grades})
+
+
+@method_decorator(login_required, name='dispatch')
+class GradebookCreate(View):
+    def get(self, request):
+        form = GradebookCreationForm()
+        return render(request, 'grade_app/gradebook-new.html', context={'form': form})
+
+    def post(self, request):
+        form = GradebookCreationForm(request.POST)
+
+        if not form.is_valid():
+            return HttpResponse('something sux')
+
+        gradebook = form.save(commit=False)
+        gradebook.owner = request.user
+        gradebook.save()
+        return redirect('home')

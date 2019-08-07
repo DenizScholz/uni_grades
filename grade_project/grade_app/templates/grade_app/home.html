@@ -13,7 +13,7 @@
 <div class="container grade-container-dark my-4 p-5 rounded shadow">
     <div class="row align-items-center">
         <div class="col-md">
-            <h1 class="grade-font-white font-weight-light">Hello, {{ request.user|title}}.</h1>
+            <h1 class="grade-font-white font-weight-light">Hello, {{ request.user|title}}</h1>
         </div>
         <div class="col-md text-md-right">
             <h2 id="time" class="grade-font-white font-weight-light"></h2>
@@ -38,16 +38,31 @@
     </div>
 </div>
 
+<!-- Gradebooks head -->
+<div class="container grade-container-dark mt-4 p-4 rounded shadow">
+    <h1 class="grade-font-white font-weight-light display-4">Gradebooks</h1>
+</div>
+
 <!-- Gradebooks container -->
 {% for gradebook in gradebooks %}
 <a href="{% url 'gradebook' pk=gradebook.pk %}" style="text-decoration: none !important">
-    <div class="my-1 p-2 grade-font-white grade-container-dark rounded shadow">
+    <div class="my-1 py-3 px-4 grade-font-white grade-container-dark rounded shadow">
         {{ gradebook.title }}
         <div class="float-right"> {{ gradebook.getGrades.count }} grades</div>
     </div>
 </a>
 {% endfor %}
 
+<div class="text-right">
+    <a href="{% url 'gradebook-create' %}"
+        class="btn btn-dark my-1 py-3 px-5 grade-font-white grade-container-dark rounded shadow font-weight-light">
+        Create Gradebook
+    </a>
+</div>
+
+
+
+{% if grades %}
 <!-- All grades container -->
 <div class="container grade-container-dark my-4 p-4 rounded shadow">
     <h4 class="grade-font-white font-weight-light text-md-right">List of all your grades</h4>
@@ -80,11 +95,11 @@
             </div>
         </div>
         {% endfor %}
-
     </div>
 </div>
-{% endblock content %}
+{% endif %}
 
+{% endblock content %}
 
 {% block js %}
 <script>
