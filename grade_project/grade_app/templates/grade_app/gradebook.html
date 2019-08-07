@@ -28,9 +28,10 @@
 <a href="{% url 'gradebook' pk=gradebook.pk %}" style="text-decoration: none !important">
     <div class="my-1 py-3 px-4 grade-font-white grade-container-dark rounded shadow">
         {{ grade.title }}
-        <div class="float-right"> {{ grade.creditpoints }}LP / {{ grade.value }}</div>
+        <div class="float-right"> {{ grade.creditpoints }}LP / {{ grade.value }}{% if not grade.weighted %} *{% endif %}</div>
     </div>
 </a>
+<a href="{% url 'grade-delete' pk=grade.pk %}">delete</a>
 {% endfor %}
 
 

@@ -13,8 +13,9 @@
 <div class="container grade-container-dark my-4 p-5 rounded shadow">
     <div class="row align-items-center">
         <div class="col-md">
-            <h1 class="grade-font-white font-weight-light" style="opacity: 0; transition: ease-in-out 2s;" id="hello-user-header">Hello,
-                <span >
+            <h1 class="grade-font-white font-weight-light" style="opacity: 0; transition: ease-in-out 2s;"
+                id="hello-user-header">Hello,
+                <span>
                     {{ request.user|title}}
                 </span>
             </h1>
@@ -43,6 +44,7 @@
     </div>
 </div>
 
+{% if gradebooks %}
 <!-- Gradebooks head -->
 <div class="container grade-container-dark mt-4 p-4 rounded shadow">
     <h1 class="grade-font-white font-weight-light display-4">Gradebooks</h1>
@@ -57,6 +59,8 @@
     </div>
 </a>
 {% endfor %}
+
+{% endif %}
 
 <!-- Create Gradebook button -->
 <div class="text-right">
@@ -130,6 +134,6 @@
             startTime()
         }, 500);
     }
-    
+
 </script>
 {% endblock js %}

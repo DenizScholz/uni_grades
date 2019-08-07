@@ -70,6 +70,10 @@ class GradebookView(View):
             return HttpResponse('something sux')
 
         grade = form.save(commit=False)
+        for g in grades:
+            if g.title == grade.title:
+                return HttpResponse('already have this one')
+
         grade.gradebook = gradebook
         grade.save()
         form = GradeCreationForm()
@@ -80,7 +84,13 @@ class GradebookView(View):
             'form': form,
         }
         
-        return redirect('gradebook', pk=pk)
+        return render(request, 'grade_app/gradebook.html', context=context)
+
+class GradeDelete(View):
+    def get(self, request, pk):
+        grade = Grade.objects.get(pk=pk)
+        grade.delete()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
 
 @method_decorator(login_required, name='dispatch')
