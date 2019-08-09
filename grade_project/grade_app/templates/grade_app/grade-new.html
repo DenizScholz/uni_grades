@@ -25,5 +25,12 @@
     </form>
 </div>
 
+<div class="text-right">
+    <a href="{% url 'grade-delete' pk=grade.pk %}"
+        class="btn btn-dark my-1 py-3 px-5 grade-font-white grade-container-dark rounded shadow font-weight-light">
+        Delete this Grade
+    </a>
+</div>
+
 
 {% endblock content %}
