@@ -92,18 +92,21 @@
 
         <!-- Gradelist -->
         {% for grade in grades %}
-        <div class="row align-items-center grade-container-dark2 px-3 py-3 rounded my-1">
-            <div class="col-sm-8 p-0">
-                <div class="grade-font-white font-weight-light p-0">{{ grade.title }}</div>
+
+        <a href="{% url 'grade' pk=grade.pk %}" style="text-decoration: none !important">
+            <div class="row align-items-center grade-container-dark2 px-3 py-3 rounded my-1">
+                <div class="col-sm-8 p-0">
+                    <div class="grade-font-white font-weight-light p-0">{{ grade.title }}</div>
+                </div>
+                <div class="col-sm-2 p-0">
+                    <div class="grade-font-white font-weight-light text-sm-right p-0">{{ grade.creditpoints }}LP</div>
+                </div>
+                <div class="col-sm-2 p-0">
+                    <div class="grade-font-white font-weight-light text-sm-right p-0">{% if not grade.weighted %}*
+                        {% endif %}{{ grade.value }}</div>
+                </div>
             </div>
-            <div class="col-sm-2 p-0">
-                <div class="grade-font-white font-weight-light text-sm-right p-0">{{ grade.creditpoints }}LP</div>
-            </div>
-            <div class="col-sm-2 p-0">
-                <div class="grade-font-white font-weight-light text-sm-right p-0">{% if not grade.weighted %}*
-                    {% endif %}{{ grade.value }}</div>
-            </div>
-        </div>
+        </a>
         {% endfor %}
     </div>
 </div>
