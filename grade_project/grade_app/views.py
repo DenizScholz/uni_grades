@@ -84,8 +84,7 @@ class GradeView(View):
         if request.user == gradebook.owner:
             form = GradeCreationForm(request.POST, instance=grade)
             if form.is_valid:
-                post = form.save(commit=False)
-                grade.save()
+                form.save()
                 return redirect('gradebook', pk=gradebook.pk)
             else:
                 context = {

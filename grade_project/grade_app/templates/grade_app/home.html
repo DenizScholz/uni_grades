@@ -28,7 +28,8 @@
 </div>
 <!-- User Stats container -->
 <div class="container grade-container-dark my-4 p-4 rounded shadow">
-    <div class="row align-items-center justify-content-between">
+    <div class="row align-items-center justify-content-between" style="opacity: 0; transition: ease-in-out 2s;"
+        id="stats">
         <div class="col-sm text-center m-2 border-sm-right border-sm-bottom">
             <h3 class="grade-font-white font-weight-light">Total Grades</h3>
             <h2 class="grade-font-white font-weight-light">{{ grades.count }}</h2>
@@ -119,6 +120,8 @@
         startTime();
         setTimeout(function () {
             time = document.getElementById('time');
+            time.style.opacity = 1;
+            time = document.getElementById('stats');
             time.style.opacity = 1;
         }, 1000);
     }
