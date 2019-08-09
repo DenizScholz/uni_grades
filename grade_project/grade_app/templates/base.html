@@ -10,7 +10,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href='{% static "grade_app/css/base.css" %}'>
+    <link rel="stylesheet" type="text/css" href='{% static "css/base.css" %}'>
 
     {% block css %} {% endblock css %}
 
@@ -23,7 +23,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark grade-navbar shadow py-4">
         <a class="navbar-brand" href="{% url 'home' %}">
-            <img src="{% static 'grade_app/images/logo.png' %}" alt="brand" height="40px;">
+            <img src="{% static 'images/logo.png' %}" alt="brand" height="40px;">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
