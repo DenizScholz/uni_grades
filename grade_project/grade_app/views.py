@@ -65,6 +65,38 @@ class GradebookView(View):
 
 
 @method_decorator(login_required, name='dispatch')
+class GradeView(View):
+    def get(self, request, pk):
+        grade = Grade.objects.get(pk=pk)
+        gradebook = grade.gradebook
+        if request.user == gradebook.owner:
+            form = GradeCreationForm(instance=grade)
+            context = {
+                'form': form,
+            }
+            return render(request, 'grade_app/grade-new.html', context=context)
+        else:
+            raise Http404('Not authorized')
+
+    def post(self, request, pk):
+        grade = get_object_or_404(Grade, pk=pk)
+        gradebook = grade.gradebook
+        if request.user == gradebook.owner:
+            form = GradeCreationForm(request.POST, instance=grade)
+            if form.is_valid:
+                post = form.save(commit=False)
+                grade.save()
+                return redirect('gradebook', pk=gradebook.pk)
+            else:
+                context = {
+                    'form': form,
+                }
+                return render(request, 'grade_app/grade-new.html', context=context)
+        else:
+            raise Http404('Not authorized')
+
+
+@method_decorator(login_required, name='dispatch')
 class GradeDelete(View):
     def get(self, request, pk):
         grade = get_object_or_404(Grade, pk=pk)

@@ -116,11 +116,11 @@
     function init() {
         hello_user = document.getElementById('hello-user-header');
         hello_user.style.opacity = 1;
+        startTime();
         setTimeout(function () {
             time = document.getElementById('time');
             time.style.opacity = 1;
         }, 1000);
-        startTime();
     }
     function checkTime(i) {
         return (i < 10) ? "0" + i : i;
