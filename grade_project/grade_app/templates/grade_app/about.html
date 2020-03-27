@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href='{% static "css/home.css" %}'>
+{% endblock css %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container grade-container-dark my-4 p-5 rounded shadow">
+    <div class="row">
+        <div class="col">
+            <h1 class="display-4 grade-font-white text-center mb-5">About</h1>
+            <p class="grade-font-white">UniGrades is a web application for managing and organizing your school grades.
+            This is a personal project, so you may use it on your own risk.</p>
+            <p class="grade-font-white">Creator: Deniz Scholz</p>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

@@ -32,7 +32,7 @@ class Home(View):
 
 class About(View):
     def get(self, request):
-        return render(request, 'base.html')
+        return render(request, 'grade_app/about.html')
 
 
 @method_decorator(login_required, name='dispatch')
