@@ -8,7 +8,7 @@
 {% endblock css %}
 
 
-{% block title %}Sign Up{% endblock %}
+{% block title %}Register{% endblock %}
 
 {% block content %}
 
@@ -22,7 +22,7 @@
     <form method="POST">
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class="btn btn-sm btn-primary">Signup</button>
+        <button type="submit" class="btn btn-lg btn-primary">Register</button>
     </form>
 </div>
 
@@ -30,7 +30,7 @@
 <div class="container grade-container-dark rounded shadow p-5 grade-font-white my-4">
     <div class="d-flex justify-content-between">
         <h5 class="font-weight-light">Already have an account?</h5>
-        <a class="btn btn-primary" href="{% url 'login' %}">
+        <a class="btn btn-lg btn-primary" href="{% url 'login' %}">
             Login
         </a>
     </div>

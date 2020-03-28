@@ -21,7 +21,7 @@
     <form method="POST">
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="submit" class="btn btn-lg btn-primary">Login</button>
     </form>
 </div>
 
@@ -29,8 +29,8 @@
 <div class="container grade-container-dark rounded shadow p-5 grade-font-white my-4">
     <div class="d-flex justify-content-between">
         <h5 class="font-weight-light">Do not have an account yet?</h5>
-        <a class="btn btn-primary" href="{% url 'signup' %}">
-            Signup
+        <a class="btn btn-lg btn-primary" href="{% url 'signup' %}">
+            Register
         </a>
     </div>
 </div>
